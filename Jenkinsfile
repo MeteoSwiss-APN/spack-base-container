@@ -12,10 +12,6 @@ pipeline {
    
     stages {
         stage('Checkout') {
-            when {
-                expression { Globals.ocpHostName && Globals.deployContainer }
-            }
-
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
