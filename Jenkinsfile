@@ -19,11 +19,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
-                                          usernameVariable: 'NXUSER'),
-                         string(credentialsId: "${Globals.ocpProject}-token",
-                                variable: 'TOKEN'),
-                         file(credentialsId: "${Globals.ocpProject}-secretsenv",
-                              variable: 'ENVFILE')]) {
+                                          usernameVariable: 'NXUSER')]) {
                     sh """
                         echo \$NXPASS | docker login docker-all-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         echo \$NXPASS | docker login docker-intern-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
