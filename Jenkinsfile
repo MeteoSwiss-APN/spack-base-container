@@ -9,6 +9,10 @@ pipeline {
         timeout(time: 48, unit: 'HOURS')
     }
 
+    when {
+        expression { Globals.ocpHostName && Globals.deployContainer }
+    }
+    
     stages {
         stage('Checkout') {
             steps {
