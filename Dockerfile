@@ -7,6 +7,7 @@ ENV DOCKERFILE_BASE=ubuntu            \
     DEBIAN_FRONTEND=noninteractive    \
     CURRENTLY_BUILDING_DOCKER_IMAGE=1 \
     container=docker
+ENV http_proxy=http://proxy.meteoswiss.ch:8080
 
 RUN apt-get -yqq update \
  && apt-get -yqq install --no-install-recommends \
