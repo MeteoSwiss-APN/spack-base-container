@@ -9,12 +9,13 @@ pipeline {
         timeout(time: 48, unit: 'HOURS')
     }
 
-    when {
-        expression { Globals.ocpHostName && Globals.deployContainer }
-    }
-    
+   
     stages {
         stage('Checkout') {
+            when {
+                expression { Globals.ocpHostName && Globals.deployContainer }
+            }
+
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
