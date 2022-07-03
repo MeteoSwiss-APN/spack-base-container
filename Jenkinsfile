@@ -14,8 +14,8 @@ pipeline {
         stage('Checkout') {
             environment {
                 DOCKER_CONFIG = "$workspace/.docker"
-                HTTP_PROXY = 'http://proxy.meteoswiss.ch:8080/'
-                http_proxy = 'http://proxy.meteoswiss.ch:8080/'
+#                HTTP_PROXY = 'http://proxy.meteoswiss.ch:8080/'
+#                http_proxy = 'http://proxy.meteoswiss.ch:8080/'
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
             }
             steps {
@@ -27,6 +27,7 @@ pipeline {
                         echo \$NXPASS | docker login docker-intern-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         export COMPOSE_DOCKER_CLI_BUILD=1
                         export DOCKER_BUILDKIT=1
+                        echo "proxy $http_proxy"
                         cp -r /etc/ssl/certs .
                         docker build .
                     """
