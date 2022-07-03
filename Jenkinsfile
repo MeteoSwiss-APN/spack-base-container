@@ -14,8 +14,6 @@ pipeline {
         stage('Checkout') {
             environment {
                 DOCKER_CONFIG = "$workspace/.docker"
-#                HTTP_PROXY = 'http://proxy.meteoswiss.ch:8080/'
-#                http_proxy = 'http://proxy.meteoswiss.ch:8080/'
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
             }
             steps {
