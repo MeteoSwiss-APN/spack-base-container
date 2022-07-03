@@ -7,7 +7,13 @@ ENV DOCKERFILE_BASE=ubuntu            \
     DEBIAN_FRONTEND=noninteractive    \
     CURRENTLY_BUILDING_DOCKER_IMAGE=1 \
     container=docker
-ENV http_proxy=http://proxy.meteoswiss.ch:8080
+ENV http_proxy='http://proxy.meteoswiss.ch:8080' \
+    https_proxy='http://proxy.meteoswiss.ch:8080' \
+    REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt' \
+    SSL_CERT_FILE='/etc/ssl/certs/ca-certificates.crt' \
+    LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8
+COPY certs/ca-certificates.crt /etc/ssl/certs/
 
 RUN apt-get -yqq update \
  && apt-get -yqq install --no-install-recommends \
@@ -30,14 +36,23 @@ RUN apt-get -yqq update \
         ssh \
         unzip \
         bzip2 \
- && locale-gen en_US.UTF-8 \
- && pip3 install boto3 \
+ && locale-gen en_US.UTF-8
+ENV PIP_PROXY='http://proxy.meteoswiss.ch:8080' \
+    PIP_CERT='/etc/ssl/certs/ca-certificates.crt'
+#    PIP_INDEX='https://nexus.meteoswiss.ch/repository/python-all/pypi' \
+#    PIP_INDEX_URL='https://nexus.meteoswiss.ch/repository/python-all/simple'
+RUN mkdir -p /root/.ssh/
+RUN    echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+COPY certs/ca-certificates.crt /etc/ssl/certs/
+
+RUN pip3 install boto3 \
  && rm -rf /var/lib/apt/lists/*
 
 # Authorize SSH Host
 RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh && \
-    ssh-keyscan github.com > /root/.ssh/known_hosts
+    chmod 0700 /root/.ssh 
+#&& \
+#    ssh-keyscan github.com >> /root/.ssh/known_hosts
 
 RUN git clone -c feature.manyFiles=true https://github.com/spack/spack.git $SPACK_ROOT
 
