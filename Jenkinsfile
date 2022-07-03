@@ -25,6 +25,8 @@ pipeline {
                     sh """
                         echo \$NXPASS | docker login docker-all-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         echo \$NXPASS | docker login docker-intern-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
+                        export COMPOSE_DOCKER_CLI_BUILD=1
+                        export DOCKER_BUILDKIT=1
                         docker buildx build  --ssh default .
                     """
                               }
