@@ -28,6 +28,7 @@ pipeline {
                         echo "proxy $http_proxy"
                         cp -r /etc/ssl/certs .
                         ls -ltr ~/.docker/
+                        echo $http_proxy
                         cat ~/.docker/config.json
                         docker build .
                     """
