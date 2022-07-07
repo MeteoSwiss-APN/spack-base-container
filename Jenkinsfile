@@ -29,7 +29,7 @@ pipeline {
                         cp -r /etc/ssl/certs .
                         ls -ltr ~/.docker/
                         cat ~/.docker/config.json
-                        docker build -v /var/run/docker.sock:/var/run/docker.sock:rw -v $HOME/.ssh:/root/.ssh:ro .
+                        docker build .
                     """
                               }
             }
