@@ -15,14 +15,9 @@ pipeline {
             environment {
                 DOCKER_CONFIG = "$workspace/.docker"
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
-                PROXY_PWD = "none"
+                PROXY_PWD = credentials('apn-test-cred')
             }
             steps {
-                withCredentials([string(credentialsId: 'apn-test-cred', variable: 'TOKEN')]) {
-                  sh '''
-                      PROXY_PWD=${TOKEN}
-                  '''
-                }
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
                                           usernameVariable: 'NXUSER')]) {
@@ -35,7 +30,6 @@ pipeline {
                         cp -r /etc/ssl/certs .
                         ls -ltr ~/.docker/
                         echo $http_proxy
-                        cat ~/.docker/config.json
                         docker build --build-arg PROXY_PWD=${PROXY_PWD} .
                     """
                               }
