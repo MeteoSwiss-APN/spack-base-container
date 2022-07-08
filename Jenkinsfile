@@ -18,10 +18,10 @@ pipeline {
                 PROXY_PWD = "none"
             }
             steps {
-                withCredentials([string(credentialsId: 'apn-test-cred2', variable: 'TOKEN')]) {
-                  sh """
+                withCredentials([string(credentialsId: 'apn-test-cred', variable: 'TOKEN')]) {
+                  sh '''
                       PROXY_PWD=${TOKEN}
-                  """
+                  '''
                 }
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
@@ -36,7 +36,7 @@ pipeline {
                         ls -ltr ~/.docker/
                         echo $http_proxy
                         cat ~/.docker/config.json
-                        docker build --build-arg PROXY_PWD=${PROXY_ARG} .
+                        docker build --build-arg PROXY_PWD=${PROXY_PWD} .
                     """
                               }
             }
