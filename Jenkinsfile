@@ -15,12 +15,12 @@ pipeline {
             environment {
                 DOCKER_CONFIG = "$workspace/.docker"
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
+                PROXY_PWD = "none"
             }
             steps {
                 withCredentials([string(credentialsId: 'apn-test-cred', variable: 'TOKEN')]) {
                   sh """
-                      echo "TEST CRED ${TOKEN}" > exfile
-                      cat exfile
+                      PROXY_PWD=${TOKEN}
                   """
                 }
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
@@ -36,7 +36,7 @@ pipeline {
                         ls -ltr ~/.docker/
                         echo $http_proxy
                         cat ~/.docker/config.json
-                        docker build .
+                        docker build --build-arg PROXY_PWD=${PROXY_ARG} .
                     """
                               }
             }

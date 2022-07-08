@@ -1,5 +1,6 @@
 FROM ubuntu:20.04
 
+ARG PROXY_PWD
 ENV DOCKERFILE_BASE=ubuntu            \
     DOCKERFILE_DISTRO=ubuntu          \
     DOCKERFILE_DISTRO_VERSION=20.04   \
@@ -15,6 +16,7 @@ ENV HTTP_PROXY=${http_proxy} \
     LANG=C.UTF-8
 COPY certs/ca-certificates.crt /etc/ssl/certs/
 
+RUN echo "TEST ${PROXY_PWD}"
 RUN apt-get -yqq update \
  && apt-get -yqq install --no-install-recommends \
         build-essential \
