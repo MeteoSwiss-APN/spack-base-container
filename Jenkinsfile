@@ -15,7 +15,7 @@ pipeline {
             environment {
                 DOCKER_CONFIG = "$workspace/.docker"
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
-                PROXY_PWD = credentials('apn-test-cred')
+                PROXY_PWD = credentials('apn-proxy')
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
