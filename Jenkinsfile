@@ -39,7 +39,7 @@ pipeline {
                         export HTTPS_PROXY=https_proxy
                         export no_proxy=localhost,.meteoswiss.ch,ssi.dwd.de
 
-                        docker pull ubuntu:20.04
+                        docker pull registry.hub.docker.com/library/ubuntu:20.04
                         docker build --build-arg PROXY_PWD=${PROXY_PWD} .
                     """
                               }
