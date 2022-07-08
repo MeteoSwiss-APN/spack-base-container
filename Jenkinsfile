@@ -21,7 +21,7 @@ pipeline {
                   sh """
                       echo "TEST CRED ${TOKEN}"
                   """
-                },
+                }
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
                                           usernameVariable: 'NXUSER')]) {
