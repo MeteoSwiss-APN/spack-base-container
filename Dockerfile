@@ -17,10 +17,6 @@ ENV HTTP_PROXY=${http_proxy} \
 COPY certs/ca-certificates.crt /etc/ssl/certs/
 
 RUN echo "TEST ${PROXY_PWD}"
-ENV HTTP_PROXY="http://${PROXY_PWD}@proxy.meteoswiss.ch:8080" \
-    HTTPS_PROXY="https://${PROXY_PWD}@proxy.meteoswiss.ch:8080" \
-    http_proxy=${HTTP_PROXY} \
-    https_proxy=${HTTPS_PROXY}
 
 RUN echo "TEST ${HTTP_PROXY}"
 RUN apt-get -yqq update \

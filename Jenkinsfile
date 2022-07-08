@@ -22,6 +22,8 @@ pipeline {
                                           passwordVariable: 'NXPASS',
                                           usernameVariable: 'NXUSER')]) {
                     sh """
+                         echo " {\"proxies\":{\"default\": { \"httpProxy\": "http://${PROXY_PWD}@proxy.meteoswiss.ch:8080",
+                                                            \"httpsProxy\": "http://${PROXY_PWD}@proxy.meteoswiss.ch:8080" }}} " > ~/.docker/config.json
                         echo \$NXPASS | docker login docker-all-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         echo \$NXPASS | docker login docker-intern-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         export COMPOSE_DOCKER_CLI_BUILD=1
@@ -29,6 +31,7 @@ pipeline {
                         echo "proxy $http_proxy"
                         cp -r /etc/ssl/certs .
                         ls -ltr ~/.docker/
+                        cat ~/.docker/config.json
                         echo $http_proxy
                         docker build --build-arg PROXY_PWD=${PROXY_PWD} .
                     """
