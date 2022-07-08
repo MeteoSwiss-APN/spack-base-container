@@ -17,6 +17,9 @@ pipeline {
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
             }
             steps {
+                withCredentials(withCredentials([string(credentialsId: 'apn-test-cred', variable: 'TOKEN')]) {
+                  echo "TEST CRED ${TOKEN}"
+                },
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
                                           usernameVariable: 'NXUSER')]) {
