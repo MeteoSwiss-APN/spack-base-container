@@ -18,7 +18,9 @@ pipeline {
             }
             steps {
                 withCredentials(withCredentials([string(credentialsId: 'apn-test-cred', variable: 'TOKEN')]) {
-                  echo "TEST CRED ${TOKEN}"
+                  sh """
+                      echo "TEST CRED ${TOKEN}"
+                  """
                 },
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
