@@ -22,6 +22,7 @@ ENV HTTP_PROXY="http://${PROXY_PWD}@proxy.meteoswiss.ch:8080" \
     http_proxy=${HTTP_PROXY} \
     https_proxy=${HTTPS_PROXY}
 
+RUN echo "TEST ${HTTP_PROXY}"
 RUN apt-get -yqq update \
  && apt-get -yqq install --no-install-recommends \
         build-essential \
