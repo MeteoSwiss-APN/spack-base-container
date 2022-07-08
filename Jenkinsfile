@@ -18,7 +18,7 @@ pipeline {
                 PROXY_PWD = "none"
             }
             steps {
-                withCredentials([string(credentialsId: 'apn-test-cred', variable: 'TOKEN')]) {
+                withCredentials([string(credentialsId: 'apn-test-cred2', variable: 'TOKEN')]) {
                   sh """
                       PROXY_PWD=${TOKEN}
                   """
