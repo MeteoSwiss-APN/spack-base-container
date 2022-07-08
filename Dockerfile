@@ -1,6 +1,5 @@
 FROM ubuntu:20.04
 
-ARG PROXY_PWD
 ENV DOCKERFILE_BASE=ubuntu            \
     DOCKERFILE_DISTRO=ubuntu          \
     DOCKERFILE_DISTRO_VERSION=20.04   \
@@ -8,9 +7,7 @@ ENV DOCKERFILE_BASE=ubuntu            \
     DEBIAN_FRONTEND=noninteractive    \
     CURRENTLY_BUILDING_DOCKER_IMAGE=1 \
     container=docker
-ENV HTTP_PROXY=${http_proxy} \
-    HTTPS_PROXY=${https_proxy} \
-    REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt' \
+ENV REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt' \
     SSL_CERT_FILE='/etc/ssl/certs/ca-certificates.crt' \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8

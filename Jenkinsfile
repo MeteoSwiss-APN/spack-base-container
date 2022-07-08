@@ -33,6 +33,7 @@ pipeline {
                         ls -ltr ~/.docker/
                         cat ~/.docker/config.json
                         echo $http_proxy
+                        docker pull ubuntu:20.04
                         docker build --build-arg PROXY_PWD=${PROXY_PWD} .
                     """
                               }
