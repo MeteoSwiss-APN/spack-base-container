@@ -22,6 +22,7 @@ pipeline {
                                           passwordVariable: 'NXPASS',
                                           usernameVariable: 'NXUSER')]) {
                     sh """
+                        docker pull ubuntu:20.04
                          echo " {\"proxies\":{\"default\": { \"httpProxy\": "http://${PROXY_PWD}@proxy.meteoswiss.ch:8080",
                                                             \"httpsProxy\": "http://${PROXY_PWD}@proxy.meteoswiss.ch:8080" }}} " > ~/.docker/config.json
                         echo \$NXPASS | docker login docker-all-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
