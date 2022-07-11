@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM centos
 
 ENV HTTP_PROXY=http://proxy.meteoswiss.ch:8080 \
     HTTPS_PROXY=https://proxy.meteoswiss.ch:8080
