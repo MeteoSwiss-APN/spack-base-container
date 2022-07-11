@@ -13,9 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             environment {
-                DOCKER_CONFIG = "$workspace/.docker"
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
-                PROXY_PWD = credentials('apn-proxy')
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
@@ -30,9 +28,6 @@ pipeline {
                         export DOCKER_BUILDKIT=1
                         echo "proxy $http_proxy"
                         cp -r /etc/ssl/certs .
-                        ls -ltr ~/.docker/
-                        cat ~/.docker/config.json
-                        echo $http_proxy
                         docker build .
                     """
                               }
