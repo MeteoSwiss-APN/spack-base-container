@@ -1,5 +1,8 @@
 FROM ubuntu:20.04
 
+ENV HTTP_PROXY=http://proxy.meteoswiss.ch:8080 \
+    HTTPS_PROXY=https://proxy.meteoswiss.ch:8080
+
 ENV DOCKERFILE_BASE=ubuntu            \
     DOCKERFILE_DISTRO=ubuntu          \
     DOCKERFILE_DISTRO_VERSION=20.04   \

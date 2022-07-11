@@ -22,16 +22,6 @@ pipeline {
                                           passwordVariable: 'NXPASS',
                                           usernameVariable: 'NXUSER')]) {
                     sh """
-                         echo " {\"proxies\":{\"default\": { \"httpProxy\": "http://${PROXY_PWD}@proxy.meteoswiss.ch:8080",
-                                                            \"httpsProxy\": "http://${PROXY_PWD}@proxy.meteoswiss.ch:8080" }}} " > ~/.docker/config.json
-
-                        export http_proxy=http://${PROXY_PWD}@proxy.meteoswiss.ch:8080
-                        export https_proxy=https://${PROXY_PWD}@proxy.meteoswiss.ch:8080
-                        export HTTP_PROXY=http_proxy
-                        export HTTPS_PROXY=https_proxy
-                        export no_proxy=localhost,.meteoswiss.ch,ssi.dwd.de
-
-
                         docker pull centos 
 
                         echo \$NXPASS | docker login docker-all-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
@@ -43,8 +33,7 @@ pipeline {
                         ls -ltr ~/.docker/
                         cat ~/.docker/config.json
                         echo $http_proxy
-                        docker pull registry.hub.docker.com/library/ubuntu:20.04
-                        docker build --build-arg PROXY_PWD=${PROXY_PWD} .
+                        docker build .
                     """
                               }
             }
