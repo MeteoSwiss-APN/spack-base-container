@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             environment {
-                IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
+                IMAGE = "docker-intern-nexus.meteoswiss.ch/flexpart-poc/spack:latest"
                 DOCKER_CONFIG = "$workspace/.docker"
                 HTTP_PROXY = 'http://proxy.meteoswiss.ch:8080/'
             }
@@ -24,8 +24,11 @@ pipeline {
                     sh """
                         echo \$NXPASS | docker login docker-all-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         echo \$NXPASS | docker login docker-intern-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
-                        echo "proxy $http_proxy"
-                        docker build --pull .
+                        test -d ctx && rm -rf ctx
+                        mkdir ctx
+                        cp Dockerfile ctx/Dockerfile
+                        docker build --pull -t \$IMAGE ctx
+                        docker push \$IMAGE
                     """
                               }
             }
@@ -43,6 +46,14 @@ pipeline {
         }
         success {
             echo "Build succeeded"
+        }
+        cleanup {
+            sh """
+            rm -rf ctx
+            docker image rm -f \$IMAGE
+            docker logout docker-intern-nexus.meteoswiss.ch || true
+            docker logout docker-all-nexus.meteoswiss.ch || true
+            """
         }
     }
 }
