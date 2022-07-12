@@ -14,6 +14,8 @@ pipeline {
         stage('Checkout') {
             environment {
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/test"
+                DOCKER_CONFIG = "$workspace/.docker"
+                HTTP_PROXY = 'http://proxy.meteoswiss.ch:8080/'
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
