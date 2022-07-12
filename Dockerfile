@@ -14,11 +14,7 @@ ENV REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt' \
     SSL_CERT_FILE='/etc/ssl/certs/ca-certificates.crt' \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
-COPY certs/ca-certificates.crt /etc/ssl/certs/
 
-RUN echo "TEST ${PROXY_PWD}"
-
-RUN echo "TEST ${HTTP_PROXY}"
 RUN apt-get -yqq update \
  && apt-get -yqq install --no-install-recommends \
         build-essential \
@@ -47,7 +43,6 @@ ENV PIP_PROXY='http://proxy.meteoswiss.ch:8080' \
 #    PIP_INDEX_URL='https://nexus.meteoswiss.ch/repository/python-all/simple'
 RUN mkdir -p /root/.ssh/
 RUN    echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
-COPY certs/ca-certificates.crt /etc/ssl/certs/
 
 RUN pip3 install boto3 \
  && rm -rf /var/lib/apt/lists/*
