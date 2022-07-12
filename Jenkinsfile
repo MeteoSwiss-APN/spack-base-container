@@ -8,15 +8,14 @@ pipeline {
                                   daysToKeepStr: '7', numToKeepStr: '1'))
         timeout(time: 48, unit: 'HOURS')
     }
-
-   
     stages {
-        stage('Checkout') {
+        stage('Deploy container') {
             environment {
                 IMAGE = "docker-intern-nexus.meteoswiss.ch/flexpart-poc/spack:latest"
                 DOCKER_CONFIG = "$workspace/.docker"
                 HTTP_PROXY = 'http://proxy.meteoswiss.ch:8080/'
             }
+
             steps {
                 withCredentials([usernamePassword(credentialsId: 'openshift-nexus',
                                           passwordVariable: 'NXPASS',
@@ -30,7 +29,17 @@ pipeline {
                         docker build --pull -t \$IMAGE ctx
                         docker push \$IMAGE
                     """
-                              }
+                }
+            }
+            post {
+                cleanup {
+                    sh """
+                    rm -rf ctx
+                    docker image rm -f \$IMAGE
+                    docker logout docker-intern-nexus.meteoswiss.ch || true
+                    docker logout docker-all-nexus.meteoswiss.ch || true
+                   """
+                }
             }
         }
     }
@@ -46,14 +55,6 @@ pipeline {
         }
         success {
             echo "Build succeeded"
-        }
-        cleanup {
-            sh """
-            rm -rf ctx
-            docker image rm -f \$IMAGE
-            docker logout docker-intern-nexus.meteoswiss.ch || true
-            docker logout docker-all-nexus.meteoswiss.ch || true
-            """
         }
     }
 }
