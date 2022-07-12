@@ -22,8 +22,6 @@ pipeline {
                                           passwordVariable: 'NXPASS',
                                           usernameVariable: 'NXUSER')]) {
                     sh """
-                        docker pull centos 
-
                         echo \$NXPASS | docker login docker-all-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         echo \$NXPASS | docker login docker-intern-nexus.meteoswiss.ch -u \$NXUSER --password-stdin
                         echo "proxy $http_proxy"
