@@ -1,4 +1,4 @@
-FROM centos
+FROM docker-all-nexus.meteoswiss.ch/mch/ubuntu-focal
 
 ENV HTTP_PROXY=http://proxy.meteoswiss.ch:8080 \
     HTTPS_PROXY=https://proxy.meteoswiss.ch:8080
